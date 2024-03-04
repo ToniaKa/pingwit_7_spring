@@ -1,9 +1,6 @@
 package pl.pingwit.springdemo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.pingwit.springdemo.service.ProductService;
 
 import java.util.List;
@@ -16,12 +13,24 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
+
     @GetMapping
-    public List<ProductDto> findAllProducts(){
-    return productService.findAll();
+    public List<ProductDto> findAllProducts() {
+        return productService.findAll();
     }
+
     @GetMapping("/{id}")
-    public ProductDto findById(@PathVariable(name = "id") Integer id){
+    public ProductDto findById(@PathVariable(name = "id") Integer id) {
         return productService.findProductById(id);
+    }
+
+    @PostMapping
+    public Integer createProduct(@RequestBody CreateProductInputDto input) {
+        return productService.createProduct(input);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable(name = "id") Integer id) {
+        productService.deleteProduct(id);
     }
 }

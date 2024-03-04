@@ -1,6 +1,7 @@
 package pl.pingwit.springdemo.repository;
 
 import org.springframework.stereotype.Repository;
+import pl.pingwit.springdemo.exception.PingwitException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -18,6 +19,7 @@ public class ProductRepository {
     public ProductRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
     public List<Product> findAllProducts() {
         try {
             Connection connection = dataSource.getConnection();
@@ -32,6 +34,7 @@ public class ProductRepository {
             throw new RuntimeException(e);
         }
     }
+
     public Optional<Product> findProductById(Integer id) {
         try {
             Connection connection = dataSource.getConnection();
@@ -41,6 +44,46 @@ public class ProductRepository {
                 return Optional.of(new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getBigDecimal(4)));
             }
             return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Integer createProduct(Product product) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO products(id,name,description,price) VALUES (?,?,?,?)");
+            int id = getNextProductId();
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, product.name());
+            preparedStatement.setString(3, product.description());
+            preparedStatement.setBigDecimal(4, product.price());
+            preparedStatement.executeUpdate();
+            return id;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Integer getNextProductId() {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT nextval('product_id_seq')");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            } else throw new PingwitException("id not found!");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteProductById(Integer id) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM products WHERE id=?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
