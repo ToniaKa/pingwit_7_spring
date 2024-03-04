@@ -28,6 +28,10 @@ public class ProductService {
 
     public ProductDto findProductById(Integer id) {
         Optional<Product> productById = productRepository.findProductById(id);
+        // Вынесите методы конвертации из сервисов в конвертеры.
+        // под этой фразой я имел в виду только преобразование из User в UserDto, из CreateProductInputDto в Product и подобное
+        // в этотм случае оюа конверетера не нужндаются в репозиториях, они будут такими "глуповатыми" классами
+
         return productById.map(product -> new ProductDto(product.id(), product.name(), product.description(), product.price()))
                 .orElseThrow(() -> new IllegalArgumentException("Product not found!"));
 
