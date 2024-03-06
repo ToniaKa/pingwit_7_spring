@@ -22,7 +22,7 @@ public class ProductService {
 
     public List<ProductDto> findAll() {
         return productRepository.findAllProducts().stream()
-                .map(product -> new ProductDto(product.id(), product.name(), product.description(), product.price()))
+                .map(productConverter::convertToProductDto)
                 .toList();
     }
 
@@ -32,13 +32,15 @@ public class ProductService {
         // под этой фразой я имел в виду только преобразование из User в UserDto, из CreateProductInputDto в Product и подобное
         // в этотм случае оюа конверетера не нужндаются в репозиториях, они будут такими "глуповатыми" классами
 
-        return productById.map(product -> new ProductDto(product.id(), product.name(), product.description(), product.price()))
+
+        return productById.map(productConverter::convertToProductDto)
                 .orElseThrow(() -> new IllegalArgumentException("Product not found!"));
 
     }
 
     public Integer createProduct(CreateProductInputDto input) {
-        return productConverter.createProduct(input);
+        Product product = productConverter.convertToProduct(input);
+        return productRepository.createProduct(product);
     }
 
     public void deleteProduct(Integer id) {

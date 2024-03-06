@@ -2,19 +2,17 @@ package pl.pingwit.springdemo.converter;
 
 import org.springframework.stereotype.Component;
 import pl.pingwit.springdemo.controller.CreateProductInputDto;
+import pl.pingwit.springdemo.controller.ProductDto;
 import pl.pingwit.springdemo.repository.Product;
-import pl.pingwit.springdemo.repository.ProductRepository;
 
 @Component
 public class ProductConverter {
-    private final ProductRepository productRepository;
 
-    public ProductConverter(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductDto convertToProductDto(Product product) {
+        return new ProductDto(product.id(), product.name(), product.description(), product.price());
     }
 
-    public Integer createProduct(CreateProductInputDto input) {
-        Product product = new Product(null, input.getName(), input.getDescription(), input.getPrice());
-        return productRepository.createProduct(product);
+    public Product convertToProduct(CreateProductInputDto input) {
+        return new Product(null, input.getName(), input.getDescription(), input.getPrice());
     }
 }

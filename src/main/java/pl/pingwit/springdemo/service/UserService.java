@@ -22,19 +22,20 @@ public class UserService {
 
     public List<UserDto> findAll() {
         return userRepository.findAllUsers().stream()
-                .map(user -> new UserDto(user.id(), user.name() + " " + user.surname(), user.email()))
+                .map(userConverter::convertToDto)
                 .toList();
     }
 
     public UserDto findUserById(Integer id) {
         Optional<User> userById = userRepository.findUserById(id);
-        return userById.map(user -> new UserDto(user.id(), user.name() + " " + user.surname(), user.email()))
+        return userById.map(userConverter::convertToDto)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
     }
 
     public Integer createUser(CreateUserInputDto input) {
-        return userConverter.createUser(input);
+        User user = userConverter.convertToUser(input);
+        return userRepository.createUser(user);
     }
 
     public void deleteUser(Integer id) {

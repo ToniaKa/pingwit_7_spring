@@ -7,6 +7,7 @@ public class CreateProductInputDto {
     private String description;
     private BigDecimal price;
 
+
     public String getName() {
         return name;
     }
