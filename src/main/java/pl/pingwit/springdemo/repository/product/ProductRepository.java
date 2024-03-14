@@ -1,7 +1,8 @@
-package pl.pingwit.springdemo.repository;
+package pl.pingwit.springdemo.repository.product;
 
 import org.springframework.stereotype.Repository;
 import pl.pingwit.springdemo.exception.PingwitException;
+import pl.pingwit.springdemo.repository.product.Product;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -60,6 +61,23 @@ public class ProductRepository {
             preparedStatement.setBigDecimal(4, product.price());
             preparedStatement.executeUpdate();
             return id;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateProduct(Product productToUpdate) {
+        String updateRequest = """
+                UPDATE products
+                SET name = ?, description = ?, price = ?
+                WHERE id = ?;
+                """;
+        try (PreparedStatement statement = dataSource.getConnection().prepareStatement(updateRequest)) {
+            statement.setString(1, productToUpdate.name());
+            statement.setString(2, productToUpdate.description());
+            statement.setBigDecimal(3, productToUpdate.price());
+            statement.setInt(4, productToUpdate.id());
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

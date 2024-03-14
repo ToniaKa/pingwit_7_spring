@@ -1,4 +1,4 @@
-package pl.pingwit.springdemo.controller;
+package pl.pingwit.springdemo.controller.user;
 
 import java.util.Objects;
 

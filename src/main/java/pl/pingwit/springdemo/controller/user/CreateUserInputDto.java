@@ -1,4 +1,4 @@
-package pl.pingwit.springdemo.controller;
+package pl.pingwit.springdemo.controller.user;
 
 public class CreateUserInputDto {
     private String name;

@@ -1,4 +1,4 @@
-package pl.pingwit.springdemo.repository;
+package pl.pingwit.springdemo.repository.product;
 
 import java.math.BigDecimal;
 

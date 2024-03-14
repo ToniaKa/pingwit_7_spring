@@ -1,11 +1,13 @@
 package pl.pingwit.springdemo.service;
 
 import org.springframework.stereotype.Service;
-import pl.pingwit.springdemo.controller.CreateProductInputDto;
-import pl.pingwit.springdemo.controller.ProductDto;
+import pl.pingwit.springdemo.controller.product.CreateProductInputDto;
+import pl.pingwit.springdemo.controller.product.ProductDto;
+import pl.pingwit.springdemo.controller.product.UpdateProductInputDto;
 import pl.pingwit.springdemo.converter.ProductConverter;
-import pl.pingwit.springdemo.repository.Product;
-import pl.pingwit.springdemo.repository.ProductRepository;
+import pl.pingwit.springdemo.repository.product.Product;
+import pl.pingwit.springdemo.repository.product.ProductRepository;
+import pl.pingwit.springdemo.validator.ProductValidator;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,10 +16,12 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final ProductConverter productConverter;
+    private final ProductValidator productValidator;
 
-    public ProductService(ProductRepository productRepository, ProductConverter productConverter) {
+    public ProductService(ProductRepository productRepository, ProductConverter productConverter, ProductValidator productValidator) {
         this.productRepository = productRepository;
         this.productConverter = productConverter;
+        this.productValidator = productValidator;
     }
 
     public List<ProductDto> findAll() {
@@ -38,7 +42,13 @@ public class ProductService {
 
     }
 
+    public void updateProduct(Integer id, UpdateProductInputDto inputDto) {
+        Product productToUpdate = productConverter.convertToProductUpdate(id, inputDto);
+        productRepository.updateProduct(productToUpdate);
+    }
+
     public Integer createProduct(CreateProductInputDto input) {
+        productValidator.validateOnCreate(input);
         Product product = productConverter.convertToProduct(input);
         return productRepository.createProduct(product);
     }

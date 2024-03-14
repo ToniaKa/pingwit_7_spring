@@ -1,4 +1,4 @@
-package pl.pingwit.springdemo.controller;
+package pl.pingwit.springdemo.controller.product;
 
 import org.springframework.web.bind.annotation.*;
 import pl.pingwit.springdemo.service.ProductService;
@@ -22,6 +22,11 @@ public class ProductController {
     @GetMapping("/{id}")
     public ProductDto findById(@PathVariable(name = "id") Integer id) {
         return productService.findProductById(id);
+    }
+
+    @PutMapping("/{id}")
+    public void updateProduct(@RequestBody UpdateProductInputDto inputDto, @PathVariable(name = "id") Integer id) {
+        productService.updateProduct(id, inputDto);
     }
 
     @PostMapping

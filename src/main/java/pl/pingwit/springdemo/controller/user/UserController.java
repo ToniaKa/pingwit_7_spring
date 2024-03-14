@@ -1,4 +1,4 @@
-package pl.pingwit.springdemo.controller;
+package pl.pingwit.springdemo.controller.user;
 
 import org.springframework.web.bind.annotation.*;
 import pl.pingwit.springdemo.service.UserService;
@@ -27,6 +27,11 @@ public class UserController {
     @PostMapping
     public Integer createUser(@RequestBody CreateUserInputDto input) {
         return userService.createUser(input);
+    }
+
+    @PutMapping("/{id}")
+    public void updateUser(@RequestBody UpdateUserInputDto inputDto, @PathVariable(name = "id") Integer id) {
+        userService.updateUser(id, inputDto);
     }
 
     @DeleteMapping("/{id}")
