@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
-    @Value("${spring.datasource.url}")
+/*    @Value("${spring.datasource.url}")
     private String url;
 
     @Value("${spring.datasource.username}")
@@ -27,6 +27,6 @@ public class DataSourceConfig {
         ds.setUsername(username);
         ds.setPassword(password);
         return ds;
-    }
+    }*/
 }
 
