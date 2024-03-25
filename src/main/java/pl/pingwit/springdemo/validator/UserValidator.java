@@ -48,7 +48,8 @@ public class UserValidator {
         }
         List<User> userByEmail = userRepository.findUserByEmail(input.getEmail());
 
-        int size = userByEmail.size();
+        int size = userByEmail.size(); // можно не вводить эту переменную, а сразу проверять
+        //if (userByEmail.size() >= 1) {
         if (size >= 1) {
             errors.add("Email " + input.getEmail() + " already exists");
         }
