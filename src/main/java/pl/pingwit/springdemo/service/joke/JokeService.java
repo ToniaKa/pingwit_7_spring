@@ -24,13 +24,13 @@ public class JokeService {
 
         if (count > 5) {
             List<String> jokeList = new ArrayList<>();
+            // здесь я хотел бы видеть 5 разных шуток, то есть надо сделать 5 запросов
             jokeList.add(responce.getSetup());
             jokeList.add(responce.getSetup());
             jokeList.add(responce.getSetup());
             jokeList.add(responce.getSetup());
             jokeList.add(responce.getSetup());
             return jokeList.toString();
-
         }
         return responce.getSetup();
     }

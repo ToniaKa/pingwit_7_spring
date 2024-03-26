@@ -16,12 +16,14 @@ public class JokeController {
     }
 
 
-    @GetMapping("/{count}")
+    @GetMapping("/{count}") // этот эндпоинт сделай плиз через @RequestParam, а не @PathVariable
+    // также в jokeService оставь один метод, который принимает Integer. Если этот Integer = null, то возвращай 1 шутку,
+    // если от 1 до 5 - от 1 до 5 разных шуток, если count > 5 - сервис вернет 5 разных шуток
     public JokeDto getJoke(@PathVariable(name = "count") Integer count) {
         return new JokeDto(jokeService.getRandomJoke(count));
     }
 
-    @GetMapping
+    @GetMapping // если выполнишь комент из строки 20, то этот эндпоинт удали
     public JokeDto getJoke() {
         return new JokeDto(jokeService.getJoke());
     }
