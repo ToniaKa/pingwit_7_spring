@@ -1,13 +1,21 @@
 package pl.pingwit.springdemo.controller.joke;
 
 public class JokeDto {
-    private final String joke;
+    private final String setup;
 
-    public String getJoke() {
-        return joke;
+    private final String punchline;
+
+    public JokeDto(String setup, String punchline) {
+        this.setup = setup;
+        this.punchline = punchline;
+
     }
 
-    public JokeDto(String setup) {
-        this.joke = setup;
+    public String getSetup() {
+        return setup;
+    }
+
+    public String getPunchline() {
+        return punchline;
     }
 }

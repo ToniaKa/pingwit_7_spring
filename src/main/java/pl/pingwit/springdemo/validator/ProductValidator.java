@@ -22,11 +22,7 @@ public class ProductValidator {
         if (inputDto.getName().contains("$")) {
             errors.add("Name contains invalid character");
         }
-        // изначально в нашей стстеме поле description было опциональным. то есть могло быть null
-        // эта проверка не допусти null, что противоречит требованиям. проверку на пустую строку следует делать
-        // если описание не null:
-        // if (inputDto.getDescription() != null && StringUtils.isBlank(inputDto.getDescription()))
-        if (StringUtils.isBlank(inputDto.getDescription())) {
+        if (inputDto.getDescription() != null && StringUtils.isBlank(inputDto.getDescription())) {
             errors.add("Description is blank");
         }
         if (inputDto.getDescription().contains("$")) {
